@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Shantanu's Music Player</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    
+  <div class="player">
+    
+    <div class="now-playing">
+        
+      <img id="cover" src="cover1.jpg" alt="Album Cover" />
+      
+      <div class="song-info">
+        <h2 id="title">Title</h2>
+        <p id="artist">Artist</p>
+      </div>
+    </div>
+
+    <div class="controls">
+      <button id="prev"><span>&#9664;&#9664;</span></button>
+      <button id="play"><span>&#9654;</span></button>
+      <button id="next"><span>&#9654;&#9654;</span></button>
+    </div>
+<div class="toggle-container">
+  <label class="toggle-switch">
+    <input type="checkbox" id="toggle-button">
+    <span class="slider"></span>
+  </label>
+  <font color="white"<span id="toggle-label">Autoplay off</span></font>
+</div>
+
+   <style>
+  .progress-container,
+  .volume-control {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin: 20px auto;
+    padding: 15px 20px;
+    border-radius: 12px;
+    background: linear-gradient(to right, #aba6a6, #e0e0e0);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 600px;
+  }
+
+  #progress,
+  #volume {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    max-width: 300px;
+    height: 8px;
+    border-radius: 5px;
+    background: #ddd;
+    outline: none;
+    transition: background 0.3s ease;
+  }
+
+  #progress:hover,
+  #volume:hover {
+    background: #b4d4ff;
+  }
+
+  #progress::-webkit-slider-thumb,
+  #volume::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #007bff;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+
+  #progress::-webkit-slider-thumb:hover,
+  #volume::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+  }
+
+  span,
+  label {
+    font-weight: 600;
+    color: #333;
+    min-width: 40px;
+  }
+</style>
+
+<div class="progress-container">
+  <span id="current-time">0:00</span>
+  <input type="range" id="progress" value="0" />
+  <span id="duration">0:00</span>
+</div>
+
+<div class="volume-control">
+  <label for="volume">Volume</label>
+  <input type="range" id="volume" min="0" max="1" step="0.01" />
+</div>
+
+
+    <div class="playlist">
+      <h3>Playlist</h3>
+      <ul id="playlist"></ul>
+    </div>
+  </div>
+
+
+  <script src="script.js"></script>
+</body>
+</html>
