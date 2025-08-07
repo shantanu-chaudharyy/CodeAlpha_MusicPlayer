@@ -1,3 +1,4 @@
+
 body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
@@ -11,8 +12,8 @@ body {
 
 .player {
   background-color: #1c1c1c;
-  padding: 20px;
-  border-radius: 20px;
+  padding: 40px;
+  border-radius: 30px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
   width: 350px;
   text-align: center;
@@ -42,7 +43,7 @@ body {
 
 .controls button {
   background: #ffffff;
-  color: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
   border: none;
   margin: 10px;
   padding: 10px 15px;
@@ -54,8 +55,8 @@ body {
 
 .controls button:hover {
   background: #666;
-  background: linear-gradient(45deg, #626263, #f6f6f7);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  background: linear-gradient(45deg, #dedede, #f6f6f7);
+  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.5);
 }
 
 .progress-container {
@@ -98,4 +99,57 @@ body {
 
 #playlist li:hover {
   background: #333;
+}
+.toggle-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+  font-family: 'Segoe UI', sans-serif;
+  color: #fff;
+}
+
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 24px;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  border-radius: 34px;
+  transition: 0.4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: rgb(255, 255, 255);
+  border-radius: 50%;
+  transition: 0.4s;
+}
+
+input:checked + .slider {
+  background-color: #4caf50;
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
 }

@@ -112,5 +112,19 @@
 
 
   <script src="script.js"></script>
+    <script>
+        const toggleButton = document.getElementById('toggle-button');
+        const toggleLabel = document.getElementById('toggle-label');
+    
+        toggleButton.addEventListener('change', () => {
+        if (toggleButton.checked) {
+            toggleLabel.textContent = 'Autoplay on';
+        } else {
+            toggleLabel.textContent = 'Autoplay off';
+        }
+        });
+  
+  
 </body>
+
 </html>
