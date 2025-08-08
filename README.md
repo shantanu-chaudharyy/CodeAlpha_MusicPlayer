@@ -1,32 +1,59 @@
-# 🎵 Music Player Web App
+# 🎵 Shantanu’s Music Player
 
-A sleek and modern music player built with **HTML**, **CSS**, and **JavaScript**. This project supports **play/pause**, **next/previous**, **volume control**, **dark mode toggle**, **playlist**, and **dynamic song details**. Designed with a clean UI and responsive features to offer a smooth experience.
+A sleek, modern web-based music player built using **HTML, CSS, and JavaScript** — featuring audio visualizer, playlist support, volume control, autoplay toggle, YouTube Music integration, and an animated gradient UI.
 
-<img width="1221" height="827" alt="Screenshot 2025-08-07 122746" src="https://github.com/user-attachments/assets/fd487432-d5e9-4af0-a99c-368d5ecdeb78" />
-Live Web Link - https://amazing-nougat-7d46ac.netlify.app/
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue?logo=linkedin)](https://www.linkedin.com/in/shantanuchaudhary/)  
+[![GitHub repo](https://img.shields.io/badge/GitHub-shantanu--chaudharyy-lightgrey?logo=github)](https://github.com/shantanu-chaudharyy)
+
 ---
 
 ## 🌟 Features
 
-- 🎧 Play, Pause, Next, Previous buttons  
-- 📜 Dynamic Song Title, Artist & Duration Display  
-- 📈 Real-time Progress Bar  
-- 🔊 Volume Control Slider  
-- 🌙 Light/Dark Mode Toggle  
-- 📃 Playlist Support  
-- 🎯 Autoplay Feature  
-- 💻 Fully Responsive UI  
-- 🎨 Clean and Customizable Design
+- 🎧 **Play, Pause, Next, Previous** – Seamless music controls  
+- 🔁 **Autoplay Toggle** – Automatically plays next song in queue  
+- 🎵 **Playlist Support** – Easily switch between multiple tracks  
+- 🔊 **Volume Control** – Smooth and responsive volume slider  
+- 🎼 **Live Audio Visualizer** – Waveform animation synced to audio  
+- 🎬 **YouTube Integration** – Search and play songs via YouTube Music  
+- 🌗 **Dark Mode Support** – Elegant dark mode toggle  
+- 📱 **Responsive Design** – Works beautifully on desktop and mobile  
+- 🎨 **Animated Gradient Background** – Dynamic color-changing vibe  
+- 🕘 **Live Song Progress Bar** – Track current time and seek ahead  
+- 📜 **Modern UI** – Polished, custom interface with Lottie icons  
 
 ---
 
-## 🔧 Technologies Used
+## 🚀 Live Preview  
+🔗 [**Visit the Project**](https://incomparable-mandazi-fd0093.netlify.app/)
+
+---
+
+## 🖼️ Screenshot
+
+<img width="800" alt="Music Player Screenshot" src="https://github.com/user-attachments/assets/e7bed3c8-9a4d-43f2-b356-ca35852341bf" />
+
+---
+
+## 📂 Tech Stack
 
 - HTML5  
-- CSS3  
-- JavaScript (Vanilla)
+- CSS3 (Flexbox, Media Queries, Gradient Backgrounds)  
+- JavaScript (DOM, Events, Audio API)  
+- YouTube Data API (Music Search)  
+- Lottie Files for animated icons
 
 ---
 
+## 🙌 Developed With Love By  
+**Shantanu Chaudhary**  
+> Passionate Web Developer & AI Enthusiast
 
+---
 
+## 📬 Let's Connect
+
+- [📧 Email](mailto:shantanu.com01@gmail.com)  
+- [🐱 GitHub](https://github.com/shantanu-chaudharyy)  
+- [💼 LinkedIn](https://www.linkedin.com/in/shantanuchaudhary/)
+
+---
