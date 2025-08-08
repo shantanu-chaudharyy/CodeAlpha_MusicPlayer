@@ -1,80 +1,131 @@
 const songs = [
-  {
-    title: "Despacito",
-    artist: "Luis Fonsi",
-    src: "song1.mp3",
-    cover: "cover1.jpg"
-  },
-  {
-    title: "Bon appetit",
-    artist: "Katy Perry",
-    src: "song2.mp3",
-    cover: "cover2.jpg"
-  },
-  {
-    title: "FE!N",
-    artist: "Travis Scott",
-    src: "song3.mp3",
-    cover: "cover3.jpg"
-  }
+  { title: "Despacito", artist: "Luis Fonsi", src: "song1.mp3", cover: "cover1.jpg" },
+  { title: "Bon Appétit", artist: "Katy Perry", src: "song2.mp3", cover: "cover2.jpg" },
+  { title: "FE!N", artist: "Travis Scott", src: "song3.mp3", cover: "cover3.jpg" }
+  
 ];
 
-let songIndex = 0;
-const audio = new Audio();
-const title = document.getElementById("title");
-const artist = document.getElementById("artist");
-const cover = document.getElementById("cover");
-const playBtn = document.getElementById("play");
-const prevBtn = document.getElementById("prev");
-const nextBtn = document.getElementById("next");
-const progress = document.getElementById("progress");
-const currentTimeEl = document.getElementById("current-time");
-const durationEl = document.getElementById("duration");
-const volume = document.getElementById("volume");
-const playlistEl = document.getElementById("playlist");
+let currentSong = 0;
+let isPlaying = false;
+let autoplay = false;
+let shuffle = false;
 
-function loadSong(song) {
+const audio = new Audio();
+const playBtn = document.getElementById('play');
+const prevBtn = document.getElementById('prev');
+const nextBtn = document.getElementById('next');
+const shuffleBtn = document.getElementById('shuffle');
+const progress = document.getElementById('progress');
+const currentTimeEl = document.getElementById('current-time');
+const durationEl = document.getElementById('duration');
+const volume = document.getElementById('volume');
+const toggleBtn = document.getElementById('toggle-button');
+const toggleLabel = document.getElementById('toggle-label');
+const cover = document.getElementById('cover');
+const title = document.getElementById('title');
+const artist = document.getElementById('artist');
+const playlist = document.getElementById('playlist');
+const toast = document.getElementById('toast');
+const darkModeBtn = document.getElementById('dark-mode-toggle');
+const canvas = document.getElementById("waveform");
+const ctx = canvas.getContext("2d");
+
+function loadSong(index) {
+  const song = songs[index];
+  audio.src = song.src;
   title.textContent = song.title;
   artist.textContent = song.artist;
   cover.src = song.cover;
-  audio.src = song.src;
+  highlightActive();
 }
 
 function playSong() {
   audio.play();
+  isPlaying = true;
   playBtn.innerHTML = "⏸";
+  showToast("Playing");
 }
 
 function pauseSong() {
   audio.pause();
-  playBtn.innerHTML = "▶️";
+  isPlaying = false;
+  playBtn.innerHTML = "▶";
+  showToast("Paused");
 }
 
-function togglePlay() {
-  if (audio.paused) {
-    playSong();
+function showToast(msg) {
+  toast.textContent = msg;
+  toast.classList.add("show");
+  setTimeout(() => toast.classList.remove("show"), 1500);
+}
+
+playBtn.addEventListener("click", () => isPlaying ? pauseSong() : playSong());
+
+prevBtn.addEventListener("click", () => {
+  currentSong = (currentSong - 1 + songs.length) % songs.length;
+  loadSong(currentSong);
+  playSong();
+});
+
+nextBtn.addEventListener("click", () => {
+  nextTrack();
+});
+
+function nextTrack() {
+  if (shuffle) {
+    let random;
+    do {
+      random = Math.floor(Math.random() * songs.length);
+    } while (random === currentSong);
+    currentSong = random;
+  } else {
+    currentSong = (currentSong + 1) % songs.length;
+  }
+  loadSong(currentSong);
+  playSong();
+}
+
+shuffleBtn.addEventListener("click", () => {
+  shuffle = !shuffle;
+  shuffleBtn.style.color = shuffle ? "hotpink" : "";
+  showToast(shuffle ? "Shuffle On" : "Shuffle Off");
+});
+
+audio.addEventListener("loadedmetadata", () => {
+  durationEl.textContent = formatTime(audio.duration);
+  progress.max = audio.duration;
+});
+
+audio.addEventListener("timeupdate", () => {
+  progress.value = audio.currentTime;
+  currentTimeEl.textContent = formatTime(audio.currentTime);
+  drawWaveform();
+});
+
+progress.addEventListener("input", () => {
+  audio.currentTime = progress.value;
+});
+
+volume.addEventListener("input", () => {
+  audio.volume = volume.value;
+});
+
+toggleBtn.addEventListener("change", () => {
+  autoplay = toggleBtn.checked;
+  toggleLabel.textContent = autoplay ? "Autoplay On" : "Autoplay Off";
+});
+
+audio.addEventListener("ended", () => {
+  if (autoplay) {
+    nextTrack();
   } else {
     pauseSong();
   }
-}
+});
 
-function nextSong() {
-  songIndex = (songIndex + 1) % songs.length;
-  loadSong(songs[songIndex]);
-  playSong();
-}
-
-function prevSong() {
-  songIndex = (songIndex - 1 + songs.length) % songs.length;
-  loadSong(songs[songIndex]);
-  playSong();
-}
-
-function updateProgress() {
-  progress.value = (audio.currentTime / audio.duration) * 100 || 0;
-  currentTimeEl.textContent = formatTime(audio.currentTime);
-  durationEl.textContent = formatTime(audio.duration);
-}
+darkModeBtn.addEventListener("click", () => {
+  document.body.classList.toggle("dark");
+});
 
 function formatTime(seconds) {
   const min = Math.floor(seconds / 60);
@@ -82,65 +133,64 @@ function formatTime(seconds) {
   return `${min}:${sec}`;
 }
 
-function setProgress(e) {
-  const value = e.target.value;
-  audio.currentTime = (value / 100) * audio.duration;
-}
-
-function setVolume(e) {
-  audio.volume = e.target.value;
-}
-
-function initPlaylist() {
-  songs.forEach((song, index) => {
-    const li = document.createElement("li");
-    li.textContent = `${song.title} - ${song.artist}`;
-    li.addEventListener("click", () => {
-      songIndex = index;
-      loadSong(songs[songIndex]);
-      playSong();
-    });
-    playlistEl.appendChild(li);
+function highlightActive() {
+  const lis = playlist.querySelectorAll("li");
+  lis.forEach((li, i) => {
+    li.classList.toggle("active", i === currentSong);
   });
 }
 
-audio.addEventListener("timeupdate", updateProgress);
-audio.addEventListener("ended", nextSong);
-
-playBtn.addEventListener("click", togglePlay);
-prevBtn.addEventListener("click", prevSong);
-nextBtn.addEventListener("click", nextSong);
-progress.addEventListener("input", setProgress);
-volume.addEventListener("input", setVolume);
-
-loadSong(songs[songIndex]);
-initPlaylist();
-document.getElementById("autoplay").addEventListener("change", (e) => {
-  audio.onended = e.target.checked ? nextSong : null;
+songs.forEach((song, index) => {
+  const li = document.createElement("li");
+  li.textContent = song.title;
+  li.addEventListener("click", () => {
+    currentSong = index;
+    loadSong(currentSong);
+    playSong();
+  });
+  playlist.appendChild(li);
 });
-function highlightPlaylist() {
-  [...playlistEl.children].forEach((li, i) => {
-    li.style.background = i === songIndex ? "#444" : "";
-  });
+
+function drawWaveform() {
+  const width = canvas.width = canvas.offsetWidth;
+  const height = canvas.height = canvas.offsetHeight;
+  ctx.clearRect(0, 0, width, height);
+  const barWidth = 2;
+  for (let i = 0; i < width; i += barWidth * 2) {
+    const barHeight = Math.random() * height;
+    ctx.fillStyle = "#ff0080";
+    ctx.fillRect(i, height - barHeight, barWidth, barHeight);
+  }
 }
 
-function loadSong(song) {
-  title.textContent = song.title;
-  artist.textContent = song.artist;
-  cover.src = song.cover;
-  audio.src = song.src;
-  highlightPlaylist();
+loadSong(currentSong);
+if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    document.body.classList.add('dark');
 }
-const toggleButton = document.getElementById("toggle-button");
-const toggleLabel = document.getElementById("toggle-label");
-
-toggleButton.addEventListener("change", () => {
-  if (toggleButton.checked) {
-    toggleLabel.textContent = "Autoplay On";
-    // Add autoplay functionality or theme toggle here
-    console.log("Autoplay enabled");
-  } else {
-    toggleLabel.textContent = "Autoplay Off";
-    console.log("Autoplay disabled");
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) {
+    audio.pause();
   }
 });
+document.addEventListener('keydown', (e) => {
+document.addEventListener('keydown', (e) => {
+  if (e.code === 'Space') {
+    e.preventDefault(); // Prevent page scroll
+    isPlaying ? pauseSong() : playSong();
+  }
+});
+});
+drawWaveform();
+// Typing effect for footer credit
+const footerText = "Designed & Developed by Shantanu Chaudhary";
+let footerIndex = 0;
+
+function typeFooter() {
+  if (footerIndex < footerText.length) {
+    document.getElementById("footer-text").textContent += footerText.charAt(footerIndex);
+    footerIndex++;
+    setTimeout(typeFooter, 80); // speed of typing
+  }
+}
+
+typeFooter();
